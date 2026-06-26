@@ -1,0 +1,10 @@
+vendor/
+composer.lock
+node_modules/
+*.log
+error_log
+logs/
+.DS_Store
+.env
+api/config.php
+api/firebase-credentials.json
