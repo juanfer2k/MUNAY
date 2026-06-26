@@ -8,3 +8,6 @@ logs/
 .env
 api/config.php
 api/firebase-credentials.json
+www/api/firebase-credentials.json
+www/api/firebase-credentials.json
+www/api/config.php
