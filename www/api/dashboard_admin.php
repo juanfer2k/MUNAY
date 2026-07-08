@@ -6,7 +6,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
 }
 require_once 'api/config.php';
 require_once 'includes/icons.php';
-$page_title = 'Dashboard Admin';
+$page_title = 'Dashboard';
 include 'header.php';
 ?>
 
@@ -113,7 +113,41 @@ include 'header.php';
         <div class="form-group"><label>Estado</label><select id="inputEstado"><option value="pending">Pendiente</option><option value="in_progress">En progreso</option><option value="completed">Completado</option><option value="cancelled">Cancelado</option></select></div>
         <div class="modal-actions"><button onclick="guardarTurno()" class="btn btn-success">Guardar</button><button onclick="cerrarModal('modalTurno')" class="btn btn-outline">Cancelar</button></div>
     </div>
+</div><div class="card" style="margin-top:20px;">
+    <div class="card-header">
+        <span class="card-title">Generación de Turnos</span>
+    </div>
+    <div>
+        <button onclick="generarTurnos()" class="btn btn-primary">Generar Turnos para la Semana Actual</button>
+        <div id="generarMsg" style="margin-top:10px;"></div>
+    </div>
 </div>
+
+<script>
+function generarTurnos() {
+    const msg = document.getElementById('generarMsg');
+    msg.innerHTML = 'Generando...';
+    fetch('api/generate_shifts.php?week_start=' + getMonday())
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                msg.innerHTML = '✅ Turnos generados: ' + data.created + (data.errors.length ? ' (errores: ' + data.errors.join(', ') + ')' : '');
+            } else {
+                msg.innerHTML = '❌ Error: ' + data.error;
+            }
+        })
+        .catch(e => {
+            msg.innerHTML = '❌ Error de conexión.';
+        });
+}
+
+function getMonday() {
+    const d = new Date();
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(d.setDate(diff)).toISOString().slice(0,10);
+}
+</script>
 
 <script src="js/dashboard.js"></script>
 

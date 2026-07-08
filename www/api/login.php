@@ -1,7 +1,7 @@
 <?php
-// ===== INICIO DE SESIÓN (YA CONFIGURADO EN CONFIG.PHP) =====
-require_once 'config.php'; // Esto ya inicia la sesión
+// login.php
 header('Content-Type: application/json');
+require_once 'config.php'; // <-- config.php YA inicia la sesión
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -24,13 +24,9 @@ $stmt->execute([$email]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($user && password_verify($password, $user['password'])) {
-    // ===== GUARDAR SESIÓN =====
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['user_name'] = $user['name'];
     $_SESSION['user_role'] = $user['role'];
-    
-    // Guardar sesión explícitamente
-    session_write_close();
     
     echo json_encode([
         'success' => true,

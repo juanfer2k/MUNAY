@@ -1,38 +1,52 @@
 <?php
-// police_locations.php - Ubicaciones de cuidadores para el mapa policial
-session_start();
-header('Content-Type: application/json');
-require_once 'config.php';
+// api/police_locations.php
+// Devuelve la última ubicación conocida de todos los cuidadores activos
+// Consumido por el mapa en police_view.php cada 30 segundos
 
-if (!isset($_SESSION['user_id']) || ($_SESSION['user_role'] !== 'police' && $_SESSION['user_role'] !== 'admin')) {
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+
+require_once __DIR__ . '/config.php';
+
+// Solo policías y admins pueden consultar esto
+if (session_status() === PHP_SESSION_NONE) session_start();
+if (!isset($_SESSION['user_id']) || !in_array($_SESSION['user_role'], ['police', 'admin'])) {
     http_response_code(403);
     echo json_encode(['error' => 'No autorizado']);
     exit;
 }
 
-$pdo = getDB();
+try {
+    $pdo = getDB();
 
-$sql = "SELECT 
-            c.id as caregiver_id,
+    // Devuelve cuidadores con ubicación registrada en las últimas 2 horas
+    $stmt = $pdo->query("
+        SELECT
+            cl.caregiver_id,
             c.name,
             c.group_type,
             cl.lat,
             cl.lng,
             cl.last_update,
-            s.id as shift_id,
-            s.start_time as shift_start,
-            s.end_time as shift_end,
-            s.location,
-            s.minor_id,
-            s.status
-        FROM caregivers c
-        LEFT JOIN caregiver_locations cl ON c.id = cl.caregiver_id
-        LEFT JOIN shifts s ON cl.shift_id = s.id AND s.status IN ('pending', 'in_progress')
-        WHERE c.role != 'admin'
-        AND cl.id IS NOT NULL
-        ORDER BY c.group_type, c.name";
+            c.location
+        FROM caregiver_locations cl
+        INNER JOIN caregivers c ON c.id = cl.caregiver_id
+        WHERE cl.last_update >= NOW() - INTERVAL 2 HOUR
+        ORDER BY c.name ASC
+    ");
 
-$stmt = $pdo->query($sql);
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-echo json_encode($result);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Convertir lat/lng a float para que el JSON no los mande como string
+    foreach ($rows as &$row) {
+        $row['lat'] = (float)$row['lat'];
+        $row['lng'] = (float)$row['lng'];
+    }
+
+    echo json_encode($rows);
+
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Error interno: ' . $e->getMessage()]);
+}
 ?>

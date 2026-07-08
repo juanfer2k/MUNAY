@@ -52,19 +52,19 @@ function renderNav(role) {
     var links;
     if (role === 'admin') {
         links = [
-            { href: 'dashboard_admin.php', label: 'Dashboard', icon: 'dashboard' },
-            { href: 'index.php', label: 'Cuidadores', icon: 'shifts' },
-            { href: 'police_view.php', label: 'Policía', icon: 'police' }
+            { href: 'admin_panel.php',     label: 'Panel de Control', icon: 'dashboard' },
+            { href: 'dashboard_admin.php', label: 'Dashboard',        icon: 'shifts'    },
+            { href: 'index.php',           label: 'Cuidadores',       icon: 'users'     },
+            { href: 'police_view.php',     label: 'Policía',          icon: 'police'    }
         ];
     } else if (role === 'police') {
         links = [
-            { href: 'police_view.php', label: 'Mis Rutas', icon: 'police' },
-            { href: 'index.php', label: 'Cuidadores', icon: 'shifts' }
+            { href: 'police_view.php', label: 'Mis Rutas', icon: 'police' }
         ];
     } else {
+        // caregiver
         links = [
-            { href: 'index.php', label: 'Mis Turnos', icon: 'shifts' },
-            { href: 'police_view.php', label: 'Policía', icon: 'police' }
+            { href: 'index.php', label: 'Mis Turnos', icon: 'shifts' }
         ];
     }
 

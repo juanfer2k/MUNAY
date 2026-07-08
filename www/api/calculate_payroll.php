@@ -1,27 +1,41 @@
 <?php
 // calculate_payroll.php
 header('Content-Type: application/json');
+session_start();
 require_once 'config.php';
-require_once 'auth_check.php';
-if ($_SESSION['user_role'] !== 'admin') {
-    http_response_code(403);
-    echo json_encode(['error' => 'Solo administradores']);
+
+if (!isset($_SESSION['user_id'])) {
+    http_response_code(401);
+    echo json_encode(['error' => 'No autenticado']);
     exit;
 }
 
 $pdo = getDB();
 $config = $pdo->query("SELECT * FROM payroll_config ORDER BY id DESC LIMIT 1")->fetch(PDO::FETCH_ASSOC);
-if (!$config) die(json_encode(['error' => 'Configuración de nómina no encontrada']));
-
-$caregiver_id = $_GET['caregiver_id'] ?? 0;
-$month = $_GET['month'] ?? date('Y-m');
-
-if (!$caregiver_id) {
-    echo json_encode(['error' => 'ID de cuidador requerido']);
+if (!$config) {
+    echo json_encode(['error' => 'Configuración de nómina no encontrada']);
     exit;
 }
 
-// Obtener todas las horas trabajadas (base + extras aprobadas)
+$caregiver_id = isset($_GET['caregiver_id']) ? (int)$_GET['caregiver_id'] : 0;
+$month = isset($_GET['month']) ? $_GET['month'] : date('Y-m');
+$user_role = $_SESSION['user_role'];
+$user_id = $_SESSION['user_id'];
+
+if ($user_role === 'admin') {
+    if (!$caregiver_id) {
+        echo json_encode(['error' => 'ID de cuidador requerido']);
+        exit;
+    }
+    $target_id = $caregiver_id;
+} elseif ($user_role === 'caregiver') {
+    $target_id = $user_id;
+} else {
+    http_response_code(403);
+    echo json_encode(['error' => 'No autorizado']);
+    exit;
+}
+
 $stmt = $pdo->prepare("
     SELECT 
         s.id as shift_id,
@@ -35,7 +49,7 @@ $stmt = $pdo->prepare("
     LEFT JOIN overtime_requests o ON s.id = o.shift_id AND o.status = 'approved'
     WHERE s.caregiver_id = ? AND DATE_FORMAT(s.shift_date, '%Y-%m') = ?
 ");
-$stmt->execute([$caregiver_id, $month]);
+$stmt->execute([$target_id, $month]);
 $shifts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $total_ordinary_hours = 0;
@@ -43,15 +57,12 @@ $total_overtime_125 = 0;
 $total_overtime_175 = 0;
 
 foreach ($shifts as $shift) {
-    // Calcular horas ordinarias (hasta 8 horas diarias)
     $start = new DateTime($shift['shift_date'] . ' ' . $shift['start_time']);
     $end = new DateTime($shift['shift_date'] . ' ' . $shift['end_time']);
     if ($end < $start) $end->modify('+1 day');
     $diff = $start->diff($end);
     $hours = $diff->h + ($diff->i / 60);
     $total_ordinary_hours += min($hours, 8);
-    
-    // Si tiene horas extras aprobadas
     if ($shift['extra_hours']) {
         if ($shift['extra_type'] == 'nocturna') $total_overtime_175 += $shift['extra_hours'];
         else $total_overtime_125 += $shift['extra_hours'];
@@ -72,7 +83,7 @@ $total_deducciones = $health_ded + $pension_ded + $config['other_deductions'];
 $total_pagar = $total_devengado - $total_deducciones;
 
 echo json_encode([
-    'caregiver_id' => $caregiver_id,
+    'caregiver_id' => $target_id,
     'month' => $month,
     'ordinary_hours' => round($total_ordinary_hours, 2),
     'overtime_125' => round($total_overtime_125, 2),

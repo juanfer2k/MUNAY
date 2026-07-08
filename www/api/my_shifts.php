@@ -1,6 +1,6 @@
 <?php
-// my_shifts.php - Obtener turnos del cuidador autenticado
-session_start(); // <-- Inicio de sesión obligatorio
+// my_shifts.php - Obtener turnos del cuidador autenticado con patrón y sección
+session_start();
 header('Content-Type: application/json');
 require_once 'config.php';
 
@@ -14,12 +14,24 @@ $pdo = getDB();
 $user_id = $_SESSION['user_id'];
 $today = date('Y-m-d');
 
-// Obtener turnos del día
+// Obtener turnos del día con patrón y sección
 $stmt = $pdo->prepare("
-    SELECT id, shift_date, start_time, end_time, location, status, minor_id
-    FROM shifts 
-    WHERE caregiver_id = ? AND shift_date = ?
-    ORDER BY start_time
+    SELECT 
+        s.id, 
+        s.shift_date, 
+        s.start_time, 
+        s.end_time, 
+        s.location, 
+        s.status, 
+        s.minor_id,
+        s.pattern_code,
+        sec.name AS section_name,
+        sp.description AS pattern_description
+    FROM shifts s
+    LEFT JOIN sections sec ON s.section_id = sec.id
+    LEFT JOIN shift_patterns sp ON s.pattern_code = sp.code
+    WHERE s.caregiver_id = ? AND s.shift_date = ?
+    ORDER BY s.start_time
 ");
 $stmt->execute([$user_id, $today]);
 $shifts = $stmt->fetchAll(PDO::FETCH_ASSOC);

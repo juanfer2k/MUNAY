@@ -1,127 +1,164 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="shortcut icon" href="favicon.ico">
-<title>Acceso - Turnos Hospital</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',Roboto,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#0b2a3e,#1a4b6d);padding:20px}
-.login-card{background:#fff;border-radius:24px;padding:40px 32px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.35)}
-.login-header{text-align:center;margin-bottom:32px}
-.login-header svg{width:56px;height:56px;fill:#1a5276}
-.login-header h1{font-size:24px;font-weight:600;color:#0b2a3e;margin-top:8px}
-.login-header p{font-size:14px;color:#5d6d7e}
-.form-group{margin-bottom:20px}
-.form-group label{display:block;font-size:13px;font-weight:500;color:#2c3e50;margin-bottom:5px}
-.input-wrapper{position:relative}
-.input-wrapper svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;fill:#95a5a6}
-.input-wrapper input{width:100%;padding:12px 16px 12px 44px;border:2px solid #e0e6ed;border-radius:12px;font-size:15px;background:#f8fafc;transition:0.2s}
-.input-wrapper input:focus{border-color:#2E86C1;outline:none;box-shadow:0 0 0 4px rgba(46,134,193,0.15);background:#fff}
-.form-options{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin:6px 0 22px}
-.form-options a{color:#2E86C1;text-decoration:none;font-weight:500}
-.btn-login{width:100%;padding:14px;background:#1a5276;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:0.2s}
-.btn-login:hover{background:#0e3a54}
-.msg-error,.msg-success{padding:12px 16px;border-radius:10px;font-size:13px;margin-top:16px;display:none}
-.msg-error{background:#fde8e8;color:#922B21;border-left:4px solid #922B21}
-.msg-success{background:#e3f5eb;color:#1E8449;border-left:4px solid #1E8449}
-.visible{display:block}
-@media(max-width:480px){.login-card{padding:28px 20px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico">
+    <title>Acceso - Turnos</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Roboto,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#0b2a3e,#1a4b6d);padding:20px}
+        .login-card{background:#fff;border-radius:24px;padding:40px 32px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.35)}
+        .login-header{text-align:center;margin-bottom:32px}
+        .login-header svg{width:56px;height:56px;fill:#1a5276}
+        .login-header h1{font-size:24px;font-weight:600;color:#0b2a3e;margin-top:8px}
+        .login-header p{font-size:14px;color:#5d6d7e}
+        .form-group{margin-bottom:20px}
+        .form-group label{display:block;font-size:13px;font-weight:500;color:#2c3e50;margin-bottom:5px}
+        .input-wrapper{position:relative}
+        .input-wrapper svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;fill:#95a5a6}
+        .input-wrapper input{width:100%;padding:12px 16px 12px 44px;border:2px solid #e0e6ed;border-radius:12px;font-size:15px;background:#f8fafc;transition:0.2s}
+        .input-wrapper input:focus{border-color:#2E86C1;outline:none;box-shadow:0 0 0 4px rgba(46,134,193,0.15);background:#fff}
+        .form-options{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin:6px 0 22px}
+        .form-options a{color:#2E86C1;text-decoration:none;font-weight:500}
+        .btn-login{width:100%;padding:14px;background:#1a5276;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:0.2s}
+        .btn-login:hover{background:#0e3a54}
+        .msg-error,.msg-success{padding:12px 16px;border-radius:10px;font-size:13px;margin-top:16px;display:none}
+        .msg-error{background:#fde8e8;color:#922B21;border-left:4px solid #922B21}
+        .msg-success{background:#e3f5eb;color:#1E8449;border-left:4px solid #1E8449}
+        .visible{display:block}
+        @media(max-width:480px){.login-card{padding:28px 20px}}
+    </style>
 </head>
 <body>
 <div class="login-card">
-<div class="login-header">
-            <img src="img/MUNAY-pq.webp" alt="Fundaci&oacute;n MUNAY">
-<h1>Turnos</h1>
-<p>Gestión de turnos y transporte de menores custodiados</p>
+    <div class="login-header">
+        <img src="img/MUNAY-pq.webp" alt="Fundación MUNAY" style="max-width:120px;">
+        <h1>Turnos</h1>
+        <p>Gestión de turnos y transporte de menores custodiados</p>
+    </div>
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <div class="input-wrapper">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                <input type="email" id="email" placeholder="usuario@ejemplo.com" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <div class="input-wrapper">
+                <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+        </div>
+        <div class="form-options">
+            <label><input type="checkbox" id="remember"> Recordarme</label>
+            <a href="#" id="showRecovery">¿Olvidaste tu contraseña?</a>
+        </div>
+        <button type="submit" class="btn-login">Ingresar</button>
+        <div id="errorMsg" class="msg-error"></div>
+        <div id="successMsg" class="msg-success"></div>
+    </form>
+    <div id="recoveryBox" style="display:none;margin-top:24px;padding-top:24px;border-top:1px solid #e0e6ed">
+        <h3 style="font-size:16px;color:#0b2a3e">Recuperar contraseña</h3>
+        <p style="font-size:13px;color:#5d6d7e;margin-bottom:16px">Ingresa tu correo para restablecerla.</p>
+        <div class="form-group">
+            <label for="recoveryEmail">Correo electrónico</label>
+            <input type="email" id="recoveryEmail" placeholder="usuario@ejemplo.com" style="width:100%;padding:12px 16px;border:2px solid #e0e6ed;border-radius:12px;font-size:15px">
+        </div>
+        <button id="btnRecovery" class="btn-login" style="background:#2E86C1">Enviar enlace</button>
+        <button id="btnBackLogin" style="width:100%;padding:12px;background:transparent;color:#1a5276;border:2px solid #1a5276;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;margin-top:8px">Volver al inicio</button>
+        <div id="recoveryMsg" class="msg-error"></div>
+    </div>
 </div>
-<form id="loginForm">
-<div class="form-group">
-<label for="email">Correo electrónico</label>
-<div class="input-wrapper">
-<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-<input type="email" id="email" placeholder="usuario@ejemplo.com" required>
-</div>
-</div>
-<div class="form-group">
-<label for="password">Contraseña</label>
-<div class="input-wrapper">
-<svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-<input type="password" id="password" placeholder="••••••••" required>
-</div>
-</div>
-<div class="form-options">
-<label><input type="checkbox" id="remember"> Recordarme</label>
-<a href="#" id="showRecovery">¿Olvidaste tu contraseña?</a>
-</div>
-<button type="submit" class="btn-login">Ingresar</button>
-<div id="errorMsg" class="msg-error"></div>
-<div id="successMsg" class="msg-success"></div>
-</form>
-<div id="recoveryBox" style="display:none;margin-top:24px;padding-top:24px;border-top:1px solid #e0e6ed">
-<h3 style="font-size:16px;color:#0b2a3e">Recuperar contraseña</h3>
-<p style="font-size:13px;color:#5d6d7e;margin-bottom:16px">Ingresa tu correo para restablecerla.</p>
-<div class="form-group">
-<label for="recoveryEmail">Correo electrónico</label>
-<input type="email" id="recoveryEmail" placeholder="usuario@ejemplo.com" style="width:100%;padding:12px 16px;border:2px solid #e0e6ed;border-radius:12px;font-size:15px">
-</div>
-<button id="btnRecovery" class="btn-login" style="background:#2E86C1">Enviar enlace</button>
-<button id="btnBackLogin" style="width:100%;padding:12px;background:transparent;color:#1a5276;border:2px solid #1a5276;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;margin-top:8px">Volver al inicio</button>
-<div id="recoveryMsg" class="msg-error"></div>
-</div>
-</div>
+
 <script>
-(function(){
-const loginForm=document.getElementById('loginForm');
-const errorMsg=document.getElementById('errorMsg');
-const showRecovery=document.getElementById('showRecovery');
-const recoveryBox=document.getElementById('recoveryBox');
-const btnBackLogin=document.getElementById('btnBackLogin');
-const btnRecovery=document.getElementById('btnRecovery');
-const recoveryMsg=document.getElementById('recoveryMsg');
+// ===== LOGIN CON REDIRECCIÓN A dashboard.php =====
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const errorDiv = document.getElementById('errorMsg');
+    const successDiv = document.getElementById('successMsg');
 
-showRecovery.addEventListener('click',function(e){e.preventDefault();loginForm.style.display='none';recoveryBox.style.display='block';});
-btnBackLogin.addEventListener('click',function(){loginForm.style.display='block';recoveryBox.style.display='none';recoveryMsg.classList.remove('visible');});
+    errorDiv.classList.remove('visible');
+    successDiv.classList.remove('visible');
 
-loginForm.addEventListener('submit',async function(e){
-e.preventDefault();
-errorMsg.classList.remove('visible');
-const email=document.getElementById('email').value.trim();
-const password=document.getElementById('password').value.trim();
-if(!email||!password){errorMsg.textContent='Completa todos los campos.';errorMsg.classList.add('visible');return;}
-try{
-const res=await fetch('api/login.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
-const data=await res.json();
-if(data.success){
-localStorage.setItem('user',JSON.stringify({id:data.id,name:data.name,email:email,role:data.role}));
-if(data.role==='admin')window.location.href='dashboard_admin.php';
-else if(data.role==='police')window.location.href='police_view.php';
-else window.location.href='index.php';
-}else{
-errorMsg.textContent=data.error||'Credenciales inválidas.';
-errorMsg.classList.add('visible');
-}
-}catch(err){
-errorMsg.textContent='Error de conexión. Verifica tu internet.';
-errorMsg.classList.add('visible');
-}
+    try {
+        const res = await fetch('api/login.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            // Guardar usuario en localStorage
+            localStorage.setItem('user', JSON.stringify({
+                id: data.id,
+                name: data.name,
+                email: email,
+                role: data.role
+            }));
+
+            // Redirigir a dashboard.php (unificado para todos los roles)
+            window.location.href = 'dashboard.php';
+        } else {
+            errorDiv.textContent = data.error || 'Credenciales inválidas';
+            errorDiv.classList.add('visible');
+        }
+    } catch (err) {
+        errorDiv.textContent = 'Error de conexión. Verifica tu internet.';
+        errorDiv.classList.add('visible');
+        console.error('Login error:', err);
+    }
 });
 
-btnRecovery.addEventListener('click',async function(){
-const email=document.getElementById('recoveryEmail').value.trim();
-recoveryMsg.classList.remove('visible');
-if(!email){recoveryMsg.textContent='Ingresa tu correo electrónico.';recoveryMsg.className='msg-error visible';return;}
-try{
-const res=await fetch('api/recover_password.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});
-const data=await res.json();
-if(data.success){recoveryMsg.textContent='✅ Se envió un enlace a tu correo.';recoveryMsg.className='msg-success visible';}
-else{recoveryMsg.textContent=data.error||'Error al enviar el enlace.';recoveryMsg.className='msg-error visible';}
-}catch(err){recoveryMsg.textContent='Error de conexión.';recoveryMsg.className='msg-error visible';}
+// ===== RECUPERACIÓN DE CONTRASEÑA =====
+document.getElementById('showRecovery').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('recoveryBox').style.display = 'block';
 });
-})();
+
+document.getElementById('btnBackLogin').addEventListener('click', function() {
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('recoveryBox').style.display = 'none';
+});
+
+document.getElementById('btnRecovery').addEventListener('click', async function() {
+    const email = document.getElementById('recoveryEmail').value;
+    const msgDiv = document.getElementById('recoveryMsg');
+    msgDiv.classList.remove('visible');
+
+    if (!email) {
+        msgDiv.textContent = 'Ingresa tu correo electrónico.';
+        msgDiv.classList.add('visible');
+        return;
+    }
+
+    try {
+        const res = await fetch('api/recover_password.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            msgDiv.className = 'msg-success visible';
+            msgDiv.textContent = '✅ Se envió un enlace de recuperación a tu correo.';
+        } else {
+            msgDiv.className = 'msg-error visible';
+            msgDiv.textContent = data.error || 'Error al enviar el enlace.';
+        }
+    } catch (err) {
+        msgDiv.className = 'msg-error visible';
+        msgDiv.textContent = 'Error de conexión.';
+    }
+});
 </script>
 </body>
 </html>
