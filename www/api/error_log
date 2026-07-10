@@ -465,3 +465,7 @@ Stack trace:
 [09-Jul-2026 10:13:32 America/Bogota] PHP Warning:  include(): Failed opening '/MUNAY/wwwfooter.php' for inclusion (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/ficha_visita.php on line 186
 [09-Jul-2026 10:13:37 America/Bogota] PHP Warning:  include(/MUNAY/wwwfooter.php): Failed to open stream: No such file or directory in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/ficha_visita.php on line 186
 [09-Jul-2026 10:13:37 America/Bogota] PHP Warning:  include(): Failed opening '/MUNAY/wwwfooter.php' for inclusion (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/ficha_visita.php on line 186
+[10-Jul-2026 14:23:58 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "DB_HOST" in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/login_por_id.php:23
+Stack trace:
+#0 {main}
+  thrown in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/login_por_id.php on line 23
