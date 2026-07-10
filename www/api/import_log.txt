@@ -1,0 +1,10 @@
+2026-07-08 10:52:57
+Insertados: 0, Omitidos: 6
+Encabezados: tipo_doc,documento,nombre,apellido,fecha_nacimiento,genero,custodio_responsable,telefono_contacto,observaciones
+Errores: Fila 2: documento 111488821 ya existe
+Fila 3: documento 1095590751 ya existe
+Fila 4: documento 1070685522 ya existe
+Fila 5: documento 1100044298 ya existe
+Fila 6: documento 111435834 ya existe
+Fila 7: documento 111455920 ya existe
+

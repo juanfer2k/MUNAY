@@ -1,0 +1,72 @@
+/* ===== BORDES DE PANEL SEGÚN ROL Y ÁREA ===== */
+
+/* ÁREA ADMINISTRATIVA (Usuarios, Gastos, Secciones, Cambios) - Naranja */
+#tab-users,
+#tab-expenses,
+#tab-sections,
+#tab-changes {
+    border-left: 3px solid #f39c12;
+}
+
+/* AREA OPERATIVA - Colores de tarjetas estadísticas */
+
+/* Acompañamientos / Visitas - Azul (como tarjeta Custodios) */
+#tab-visitas {
+    border-left: 3px solid #3f8dee;
+}
+
+/* Pacientes - Verde (como tarjeta Activos) */
+#tab-pacientes {
+    border-left: 3px solid var(--success);
+}
+
+/* Turnos - Naranja (como tarjeta Turnos Hoy) */
+#tab-shifts {
+    border-left: 3px solid #f39c12;
+}
+
+/* Alertas - Rojo (como tarjeta Alertas) */
+#tab-alerts {
+    border-left: 3px solid var(--danger);
+}
+
+/* Mis Turnos (custodio) - Verde */
+#tab-myShifts {
+    border-left: 3px solid var(--success);
+}
+
+/* Mis Gastos (custodio) - Púrpura */
+#tab-myPayroll {
+    border-left: 3px solid #8e44ad;
+}
+
+/* Fichas PONAL (police) - Rojo */
+#tab-ponalFichas {
+    border-left: 3px solid var(--danger);
+}
+
+/* Mis Rutas (police) - Azul */
+#tab-myRoutes {
+    border-left: 3px solid #3f8dee;
+}
+
+/* ===== ESTADÍSTICAS - Reducir tamaño 50% ===== */
+.stat-card {
+    padding: 16px !important;  /* Antes: 32px */
+    gap: 8px !important;        /* Antes: 16px */
+}
+
+.stat-card .icon {
+    width: 32px !important;     /* Antes: 48px */
+    height: 32px !important;
+    font-size: 20px !important;
+}
+
+.stat-card .number {
+    font-size: 28px !important; /* Antes: 48px */
+}
+
+.stat-card .label {
+    font-size: 12px !important; /* Antes: 14px */
+}
+

@@ -187,7 +187,7 @@ include 'header.php';
         <div onclick="irATab('users')" class="stat-card blue" style="cursor:pointer;">
             <span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="#3f8dee"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span>
             <div class="number" id="totalUsers">0</div>
-            <div class="label">Custodios</div>
+            <div class="label">Formadores</div>
         </div>
         <div onclick="irATab('shifts')" class="stat-card green" style="cursor:pointer;">
             <span class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="#1E8449"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg></span>
@@ -285,7 +285,7 @@ include 'header.php';
                 <select id="inputRol" class="form-control">
                     <option value="admin">Administrador</option>
                     <option value="coordinator">Coordinador</option>
-                    <option value="custodio">Custodio</option>
+                    <option value="custodio">Formador</option>
                     <option value="nursing">Enfermería</option>
                     <option value="police">Policía</option>
                 </select>
@@ -404,7 +404,7 @@ include 'header.php';
             <div class="form-group"><label>Hora</label><input type="time" id="visitaHora" class="form-control"></div>
             <div class="form-group"><label>Lugar</label><input type="text" id="visitaLugar" class="form-control" placeholder="Clínica, hospital, etc."></div>
             <div class="form-group"><label>Notas</label><textarea id="visitaMotivo" class="form-control" rows="3" placeholder="Motivo de la cita, indicaciones, observaciones... (opcional)"></textarea></div>
-            <div class="form-group"><label>Custodio acompañante</label><select id="visitaCustodio" class="form-control"></select></div>
+            <div class="form-group"><label>Formador acompañante</label><select id="visitaCustodio" class="form-control"></select></div>
             <div class="form-group"><label>Adjunto</label><input type="file" id="visitaAdjunto" class="form-control"><small class="hint">Opcional: orden médica, remisión, etc.</small></div>
             <div id="visitaMsg" style="margin:8px 0;"></div>
             <div class="modal-actions"><button onclick="guardarVisita()" class="btn btn-success">Crear visita</button><button onclick="cerrarModal('modalVisita')" class="btn btn-outline">Cancelar</button></div>
@@ -427,7 +427,7 @@ include 'header.php';
         <div class="modal">
             <div class="modal-header"><h2>Importar Pacientes (CSV)</h2><button class="modal-close" onclick="cerrarModal('modalImportarCSV')">&times;</button></div>
             <p style="font-size:13px;color:#5d6d7e;">El archivo debe tener encabezados en la primera fila, separados por coma:<br>
-            <code>tipo_doc,documento,nombre,apellido,fecha_nacimiento,genero,custodio_responsable,telefono_contacto,observaciones</code><br>
+            <code>tipo_doc,documento,nombre,apellido,fecha_nacimiento,genero,formador_responsable,telefono_contacto,observaciones</code><br>
             Solo <code>documento</code> y <code>nombre</code> son obligatorios. Fechas en formato AAAA-MM-DD.</p>
             <div class="form-group"><input type="file" id="csvPacientes" accept=".csv" class="form-control"></div>
             <div id="csvMsg" style="margin:8px 0;"></div>
@@ -441,7 +441,8 @@ include 'header.php';
     //  CONFIGURACIÓN POR ROL
     // ============================================================
     const currentRole = '<?php echo $user_role; ?>';
-    const BASE_URL = 'https://elcerritovalle.org/MUNAY/www/';
+    document.body.classList.add('role-' + currentRole);
+    const BASE_URL = window.location.origin + window.location.pathname.split('/dashboard.php')[0] + '/';
 
     const tabsConfig = {
         admin: [
@@ -465,7 +466,7 @@ include 'header.php';
             { id: 'visitas', label: 'Acompañamientos', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>' },
             { id: 'pacientes', label: 'Pacientes', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>' },
             { id: 'shifts', label: 'Turnos', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>' },
-            { id: 'users', label: 'Custodios', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>' }
+            { id: 'users', label: 'Formadores', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>' }
         ],
 custodio: [
     { id: 'myShifts', label: 'Mis Turnos', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>' },
@@ -538,7 +539,7 @@ custodio: [
                             }
                         }
                         let roleDisplay = u.role;
-                        if (u.role === 'custodio') roleDisplay = 'custodio';
+                        if (u.role === 'custodio') roleDisplay = 'Formador';
                         else if (u.role === 'coordinator') roleDisplay = 'coordinador';
                         else if (u.role === 'nursing') roleDisplay = 'enfermería';
                         else if (u.role === 'admin') roleDisplay = 'administrador';
@@ -934,7 +935,7 @@ custodio: [
             .then(d => {
                 let html = '';
                 if (!d || d.length === 0) {
-                    html = '<tr><td colspan="8" style="text-align:center;">No hay solicitudes de cambio</td></tr>';
+                    html = '';
                 } else {
                     d.forEach(r => {
                         html += `<tr>
@@ -1319,7 +1320,7 @@ custodio: [
                             <td>${m.documento || ''}</td>
                             <td>${m.nombre} ${m.apellido || ''}</td>
                             <td>${m.fecha_nacimiento || 'N/A'}</td>
-                            <td>${m.custodio_responsable || 'N/A'}</td>
+                            <td>${m.formador_responsable || 'N/A'}</td>
                             <td>${m.activo == 1 ? 'Activo' : 'Inactivo'}</td>
                         </tr>`;
                     });
@@ -1364,7 +1365,7 @@ custodio: [
                             <td>${v.visit_date}</td>
                             <td>${v.visit_time}</td>
                             <td>${v.location || 'N/A'}</td>
-                            <td>${v.custodio_name || 'N/A'}</td>
+                            <td>${v.formador_name || 'N/A'}</td>
                             <td><span class="badge badge-${v.status}">${v.status}</span></td>
                             <td><button class="btn btn-primary-sm" onclick="verQR('${v.qr_token}')">Ver QR</button></td>
                             <td>${acciones}</td>

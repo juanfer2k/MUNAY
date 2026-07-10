@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title><?php echo $page_title ?? 'Turnos MUNAY'; ?></title>
-    <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="/MUNAY/www/css/style.css">
+<link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
     <style>
         body { opacity: 0; transition: opacity 0.15s; }
         body.loaded { opacity: 1; }

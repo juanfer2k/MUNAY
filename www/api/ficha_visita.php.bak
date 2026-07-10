@@ -39,133 +39,29 @@ if ($json_data && isset($json_data['visita_id'])) {
     }
 }
 if (!$datos) { die('Token inválido o expirado'); }
-
-// ===== RUTA CORREGIDA: header y footer con ruta ABSOLUTA =====
-$base_path = '/home2/elcerrit/elcerritovalle.org/MUNAY/www/';
 $page_title = 'Ficha para escolta - MUNAY';
-include $base_path . 'header.php';
+include __DIR__ . '/../header.php';
 ?>
 <style>
-/* ===== ESTILOS DE LA FICHA ===== */
-.ficha-container {
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    border-top: 4px solid #1ABC9C;
-}
-.ficha-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid #f0f0f0;
-    margin-bottom: 24px;
-}
-.ficha-header .icono {
-    width: 48px;
-    height: 48px;
-    background: #1ABC9C;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    color: #fff;
-    flex-shrink: 0;
-}
-.ficha-header h2 {
-    margin: 0;
-    font-size: 22px;
-    color: #2c3e50;
-}
-.ficha-header .subtitle {
-    margin: 0;
-    font-size: 14px;
-    color: #5d6d7e;
-}
-.ficha-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px 24px;
-}
-.ficha-item {
-    padding: 12px 0;
-    border-bottom: 1px solid #f5f5f5;
-}
-.ficha-item.full-width {
-    grid-column: 1 / -1;
-}
-.ficha-item .label {
-    font-size: 12px;
-    text-transform: uppercase;
-    color: #7f8c8d;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    display: block;
-    margin-bottom: 4px;
-}
-.ficha-item .value {
-    font-size: 18px;
-    font-weight: 500;
-    color: #2c3e50;
-}
-.ficha-item .value .badge-valid {
-    background: #1ABC9C;
-    color: #fff;
-    padding: 2px 12px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    display: inline-block;
-}
-.ficha-item .value .badge-status {
-    padding: 2px 12px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    display: inline-block;
-}
-.badge-confirmed { background: #2E86C1; color: #fff; }
-.badge-completed { background: #1E8449; color: #fff; }
-.badge-cancelled { background: #e74c3c; color: #fff; }
-.ficha-footer {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 2px solid #f0f0f0;
-    text-align: center;
-    font-size: 13px;
-    color: #95a5a6;
-}
-.ficha-footer .qr-hint {
-    display: inline-block;
-    background: #f8f9fa;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 12px;
-    color: #5d6d7e;
-}
-.ficha-footer .qr-hint strong {
-    color: #1ABC9C;
-}
-@media (max-width: 480px) {
-    .ficha-grid {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
-    .ficha-container {
-        margin: 16px;
-        padding: 16px;
-    }
-    .ficha-header h2 {
-        font-size: 18px;
-    }
-    .ficha-item .value {
-        font-size: 16px;
-    }
-}
+.ficha-container { max-width:600px; margin:40px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.08); border-top:4px solid #1ABC9C; }
+.ficha-header { display:flex; align-items:center; gap:16px; padding-bottom:20px; border-bottom:2px solid #f0f0f0; margin-bottom:24px; }
+.ficha-header .icono { width:48px; height:48px; background:#1ABC9C; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; color:#fff; flex-shrink:0; }
+.ficha-header h2 { margin:0; font-size:22px; color:#2c3e50; }
+.ficha-header .subtitle { margin:0; font-size:14px; color:#5d6d7e; }
+.ficha-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px 24px; }
+.ficha-item { padding:12px 0; border-bottom:1px solid #f5f5f5; }
+.ficha-item.full-width { grid-column:1 / -1; }
+.ficha-item .label { font-size:12px; text-transform:uppercase; color:#7f8c8d; font-weight:600; letter-spacing:0.5px; display:block; margin-bottom:4px; }
+.ficha-item .value { font-size:18px; font-weight:500; color:#2c3e50; }
+.ficha-item .value .badge-valid { background:#1ABC9C; color:#fff; padding:2px 12px; border-radius:20px; font-size:13px; font-weight:600; display:inline-block; }
+.ficha-item .value .badge-status { padding:2px 12px; border-radius:20px; font-size:13px; font-weight:600; display:inline-block; }
+.badge-confirmed { background:#2E86C1; color:#fff; }
+.badge-completed { background:#1E8449; color:#fff; }
+.badge-cancelled { background:#e74c3c; color:#fff; }
+.ficha-footer { margin-top:30px; padding-top:20px; border-top:2px solid #f0f0f0; text-align:center; font-size:13px; color:#95a5a6; }
+.ficha-footer .qr-hint { display:inline-block; background:#f8f9fa; padding:8px 16px; border-radius:20px; font-size:12px; color:#5d6d7e; }
+.ficha-footer .qr-hint strong { color:#1ABC9C; }
+@media (max-width:480px) { .ficha-grid { grid-template-columns:1fr; gap:8px; } .ficha-container { margin:16px; padding:16px; } .ficha-header h2 { font-size:18px; } .ficha-item .value { font-size:16px; } }
 </style>
 <div class="ficha-container">
     <div class="ficha-header">
@@ -183,4 +79,4 @@ include $base_path . 'header.php';
     </div>
     <div class="ficha-footer"><span class="qr-hint">📱 Este documento es válido solo con el código QR original.<br><strong>MUNAY</strong> · Sistema de acompañamiento seguro</span></div>
 </div>
-<?php include $base_path . 'footer.php'; ?>
+<?php include __DIR__ . '/../footer.php'; ?>

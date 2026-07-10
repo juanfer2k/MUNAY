@@ -1,60 +1,29 @@
 <?php
-// guardar_config.php
-header('Content-Type: application/json');
 session_start();
-require_once 'config.php';
-if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
-    http_response_code(403);
-    echo json_encode(['error' => 'No autorizado']);
+header('Content-Type: application/json');
+
+// Verificar que el usuario sea administrador
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    echo json_encode(['success' => false, 'error' => 'No autorizado']);
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // Permite que el dashboard cargue el estado guardado al abrir el panel.
-    $archivos = [
-        'qr' => __DIR__ . '/qr_enabled.txt',
-        'agenda' => __DIR__ . '/agenda_enabled.txt',
-        'push' => __DIR__ . '/push_enabled.txt',
-        'maintenance' => __DIR__ . '/maintenance.txt',
-    ];
-    $estado = [];
-    foreach ($archivos as $key => $path) {
-        $estado[$key] = file_exists($path) ? trim(@file_get_contents($path)) : '0';
-    }
-    echo json_encode($estado);
+$input = json_decode(file_get_contents('php://input'), true);
+if (!$input) {
+    echo json_encode(['success' => false, 'error' => 'Datos inválidos']);
     exit;
 }
 
-$data = json_decode(file_get_contents('php://input'), true);
-if (!$data) {
-    echo json_encode(['error' => 'Datos inválidos']);
-    exit;
-}
-
-// Rutas ABSOLUTAS (__DIR__), no relativas: el script ya vive dentro de api/,
-// así que 'api/archivo.txt' podía apuntar a api/api/archivo.txt según cómo
-// el servidor resuelva el directorio de trabajo, y eso rompía el guardado.
-$files = [
-    'qr' => __DIR__ . '/qr_enabled.txt',
-    'agenda' => __DIR__ . '/agenda_enabled.txt',
-    'push' => __DIR__ . '/push_enabled.txt',
-    'maintenance' => __DIR__ . '/maintenance.txt',
+// Guardar cada opción en un archivo .txt
+$configs = [
+    'qr' => $input['qr'] ?? '0',
+    'agenda' => $input['agenda'] ?? '0',
+    'push' => $input['push'] ?? '0',
+    'maintenance' => $input['maintenance'] ?? '0'
 ];
 
-$fallos = [];
-foreach ($files as $key => $path) {
-    if (isset($data[$key])) {
-        $ok = @file_put_contents($path, $data[$key]);
-        if ($ok === false) {
-            $fallos[] = $key;
-        }
-    }
-}
-
-if ($fallos) {
-    http_response_code(500);
-    echo json_encode(['error' => 'No se pudo escribir: ' . implode(', ', $fallos) . ' (revisa permisos de escritura en la carpeta api/)']);
-    exit;
+foreach ($configs as $key => $value) {
+    file_put_contents(__DIR__ . "/{$key}_enabled.txt", $value);
 }
 
 echo json_encode(['success' => true]);

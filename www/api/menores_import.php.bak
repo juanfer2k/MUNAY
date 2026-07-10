@@ -1,5 +1,5 @@
 <?php
-// menores_import.php - Importación masiva de pacientes (menores) vía CSV, solo admin
+// menores_import.php - Importación masiva con manejo de campos vacíos
 session_start();
 header('Content-Type: application/json');
 require_once 'config.php';
@@ -31,9 +31,10 @@ if ($ext !== 'csv') {
 
 $pdo = getDB();
 
+// Verificar si la tabla existe
 $checkTable = $pdo->query("SHOW TABLES LIKE 'menores'");
 if ($checkTable->rowCount() == 0) {
-    echo json_encode(['error' => 'La tabla "menores" no existe']);
+    echo json_encode(['error' => 'La tabla "menores" no existe en la base de datos']);
     exit;
 }
 
@@ -52,6 +53,7 @@ if (!$encabezados) {
     exit;
 }
 
+// Limpiar encabezados y eliminar BOM
 $encabezados = array_map(function($h) {
     $h = trim($h);
     if (strpos($h, "\xEF\xBB\xBF") === 0) {
@@ -60,11 +62,11 @@ $encabezados = array_map(function($h) {
     return strtolower($h);
 }, $encabezados);
 
+$columnasValidas = ['tipo_doc', 'documento', 'nombre', 'apellido', 'fecha_nacimiento', 'genero', 'custodio_responsable', 'telefono_contacto', 'observaciones'];
 $tiposDocValidos = ['TI', 'RC', 'CC', 'CE', 'PA', 'CN', 'PT', 'DE', 'SC', 'CD'];
 $generosValidos = ['M', 'F', 'I'];
 
 $insertados = 0;
-$actualizados = 0;
 $omitidos = 0;
 $errores = [];
 
@@ -73,19 +75,17 @@ $stmtInsert = $pdo->prepare("
     INSERT INTO menores (tipo_doc, documento, nombre, apellido, fecha_nacimiento, genero, custodio_responsable, telefono_contacto, observaciones, activo)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
 ");
-$stmtUpdate = $pdo->prepare("
-    UPDATE menores SET 
-        tipo_doc = ?, nombre = ?, apellido = ?, fecha_nacimiento = ?, 
-        genero = ?, custodio_responsable = ?, telefono_contacto = ?, 
-        observaciones = ?, activo = 1
-    WHERE documento = ?
-");
 
 $fila_num = 1;
 while (($fila = fgetcsv($handle)) !== false) {
     $fila_num++;
-    if (count(array_filter($fila, fn($v) => trim((string)$v) !== '')) === 0) continue;
     
+    // Saltar filas completamente vacías
+    if (count(array_filter($fila, fn($v) => trim((string)$v) !== '')) === 0) {
+        continue;
+    }
+    
+    // Asegurar que la fila tenga al menos tantos elementos como encabezados
     while (count($fila) < count($encabezados)) {
         $fila[] = '';
     }
@@ -104,49 +104,57 @@ while (($fila = fgetcsv($handle)) !== false) {
         continue;
     }
 
+    // Verificar si ya existe
     $stmtCheck->execute([$documento]);
     if ($stmtCheck->fetch()) {
-        try {
-            $tipoDoc = strtoupper($datos['tipo_doc'] ?? 'TI');
-            $tipoDoc = in_array($tipoDoc, $tiposDocValidos, true) ? $tipoDoc : 'TI';
-            $genero = strtoupper($datos['genero'] ?? 'I');
-            $genero = in_array($genero, $generosValidos, true) ? $genero : 'I';
-            $fechaNac = !empty($datos['fecha_nacimiento']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $datos['fecha_nacimiento']) 
-                ? $datos['fecha_nacimiento'] : null;
-            
-            $stmtUpdate->execute([
-                $tipoDoc, $nombre, $datos['apellido'] ?? '', $fechaNac,
-                $genero, !empty($datos['custodio_responsable']) ? $datos['custodio_responsable'] : null,
-                !empty($datos['telefono_contacto']) ? $datos['telefono_contacto'] : null,
-                !empty($datos['observaciones']) ? $datos['observaciones'] : null,
-                $documento
-            ]);
-            $actualizados++;
-        } catch (PDOException $e) {
-            $omitidos++;
-            $errores[] = "Fila $fila_num (actualizar): " . $e->getMessage();
-        }
+        $omitidos++;
+        $errores[] = "Fila $fila_num: documento $documento ya existe";
         continue;
     }
 
+    $tipoDoc = strtoupper($datos['tipo_doc'] ?? 'TI');
+    if (!in_array($tipoDoc, $tiposDocValidos, true)) {
+        $tipoDoc = 'TI';
+    }
+    
+    $genero = strtoupper($datos['genero'] ?? 'I');
+    if (!in_array($genero, $generosValidos, true)) {
+        $genero = 'I';
+    }
+    
+    // FECHA: convertir vacío a NULL
+    $fechaNacimiento = null;
+    if (!empty($datos['fecha_nacimiento'])) {
+        $fechaNacimiento = $datos['fecha_nacimiento'];
+        // Validar formato YYYY-MM-DD
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $fechaNacimiento)) {
+            $omitidos++;
+            $errores[] = "Fila $fila_num: fecha '$fechaNacimiento' no es YYYY-MM-DD";
+            continue;
+        }
+    }
+    
+    // Campos opcionales: convertir vacíos a NULL
+    $custodio = !empty($datos['custodio_responsable']) ? $datos['custodio_responsable'] : null;
+    $telefono = !empty($datos['telefono_contacto']) ? $datos['telefono_contacto'] : null;
+    $observaciones = !empty($datos['observaciones']) ? $datos['observaciones'] : null;
+
     try {
-        $tipoDoc = strtoupper($datos['tipo_doc'] ?? 'TI');
-        $tipoDoc = in_array($tipoDoc, $tiposDocValidos, true) ? $tipoDoc : 'TI';
-        $genero = strtoupper($datos['genero'] ?? 'I');
-        $genero = in_array($genero, $generosValidos, true) ? $genero : 'I';
-        $fechaNac = !empty($datos['fecha_nacimiento']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $datos['fecha_nacimiento']) 
-            ? $datos['fecha_nacimiento'] : null;
-        
         $stmtInsert->execute([
-            $tipoDoc, $documento, $nombre, $datos['apellido'] ?? '', $fechaNac,
-            $genero, !empty($datos['custodio_responsable']) ? $datos['custodio_responsable'] : null,
-            !empty($datos['telefono_contacto']) ? $datos['telefono_contacto'] : null,
-            !empty($datos['observaciones']) ? $datos['observaciones'] : null
+            $tipoDoc,
+            $documento,
+            $nombre,
+            $datos['apellido'] ?? '',
+            $fechaNacimiento,
+            $genero,
+            $custodio,
+            $telefono,
+            $observaciones
         ]);
         $insertados++;
     } catch (PDOException $e) {
         $omitidos++;
-        $errores[] = "Fila $fila_num (insertar): " . $e->getMessage();
+        $errores[] = "Fila $fila_num: error BD - " . $e->getMessage();
     }
 }
 
@@ -155,7 +163,6 @@ fclose($handle);
 echo json_encode([
     'success' => true,
     'insertados' => $insertados,
-    'actualizados' => $actualizados,
     'omitidos' => $omitidos,
     'errores' => $errores
 ]);

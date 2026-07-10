@@ -1,7 +1,7 @@
-    </main>
-    <footer style="background:var(--primary-dark);color:#fff;text-align:center;padding:16px;font-size:14px;margin-top:32px;display:flex;flex-direction:column;align-items:center;gap:8px;">
+</main>
+    <footer style="background:#1a2634;color:#fff;text-align:center;padding:16px;font-size:14px;margin-top:auto;display:flex;flex-direction:column;align-items:center;gap:8px;">
         <img src="img/MUNAY-removebg-preview.png" alt="MUNAY" style="height:30px; width:auto; filter:brightness(0) invert(1); display:block;">
-        <span>&copy; <?php echo date('Y'); ?> Fundación MUNAY </br> Todos los derechos reservados.</span>
+        <span>&copy; <?php echo date('Y'); ?> Fundación MUNAY <br> Todos los derechos reservados.</span>
     </footer>
 
     <!-- MODAL DE PERFIL (compartido por todas las páginas) -->
@@ -93,20 +93,17 @@
                 { href: 'dashboard.php', label: 'Custodios', icon: iconMap.shifts }
             ];
         } else if (role === 'coordinator') {
-    links = [
-        { href: 'dashboard.php', label: 'Dashboard', icon: iconMap.dashboard },
-        { href: 'dashboard.php', label: 'Turnos', icon: iconMap.shifts },
-        { href: 'dashboard.php', label: 'Custodios', icon: iconMap.police }
-    ];
-} else if (role === 'nursing') {
-    links = [
-        { href: 'dashboard.php', label: 'Dashboard', icon: iconMap.dashboard },
-        { href: 'dashboard.php', label: 'Visitas Médicas', icon: iconMap.expenses }
-    ];
-                
-                    
-                    
-                } else {
+            links = [
+                { href: 'dashboard.php', label: 'Dashboard', icon: iconMap.dashboard },
+                { href: 'dashboard.php', label: 'Turnos', icon: iconMap.shifts },
+                { href: 'dashboard.php', label: 'Custodios', icon: iconMap.police }
+            ];
+        } else if (role === 'nursing') {
+            links = [
+                { href: 'dashboard.php', label: 'Dashboard', icon: iconMap.dashboard },
+                { href: 'dashboard.php', label: 'Visitas Médicas', icon: iconMap.expenses }
+            ];
+        } else {
             links = [
                 { href: 'dashboard.php', label: 'Inicio', icon: iconMap.shifts }
             ];
@@ -121,10 +118,8 @@
                    '</a>';
         }).join('');
 
-        // Evento del botón hamburguesa (para móvil)
         var toggle = document.getElementById('navToggle');
         if (toggle) {
-            // Remover eventos anteriores para evitar duplicados
             toggle.replaceWith(toggle.cloneNode(true));
             var newToggle = document.getElementById('navToggle');
             newToggle.addEventListener('click', function() {
@@ -257,7 +252,6 @@
             var isNight = document.body.classList.contains('night-mode');
             localStorage.setItem('nightMode', isNight ? 'enabled' : 'disabled');
             this.innerHTML = isNight ? '<span class="icon">☀️</span> <span class="label">Día</span>' : '<span class="icon">🌙</span> <span class="label">Noche</span>';
-            // Cambiar capa del mapa si existe la función
             if (typeof window.toggleMapLayer === 'function') {
                 window.toggleMapLayer();
             }
@@ -269,8 +263,6 @@
     // ================================================================
     document.addEventListener('DOMContentLoaded', function() {
         var user = getUser();
-
-        // Marcar página como cargada (anti-FOUC)
         document.body.classList.add('loaded');
 
         if (user.name) {
@@ -280,7 +272,6 @@
             if (roleEl) roleEl.textContent = user.role || 'usuario';
             renderNav(user.role);
         } else {
-            // Si no hay usuario, redirigir al login
             window.location.href = 'login.html';
         }
 
@@ -321,7 +312,6 @@
         }, 30000);
     });
 
-    // Estilos de alerta
     if (!document.getElementById('alert-styles')) {
         var styleSheet = document.createElement('style');
         styleSheet.id = 'alert-styles';
@@ -329,7 +319,6 @@
         document.head.appendChild(styleSheet);
     }
 
-    // Exponer funciones globalmente
     window.cerrarModal = cerrarModal;
     window.abrirModal = abrirModal;
     window.logout = logout;

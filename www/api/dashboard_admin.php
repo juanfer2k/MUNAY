@@ -15,7 +15,7 @@ include 'header.php';
     <div class="stat-card blue">
         <span class="icon"><?= munay_icon('users', 28, 'fill="#3f8dee"') ?></span>
         <div class="number" id="totalUsers">0</div>
-        <div class="label">Usuarios</div>
+        <div class="label">Formadores</div>
     </div>
     <div class="stat-card green">
         <span class="icon"><?= munay_icon('shifts', 28, 'fill="#1E8449"') ?></span>
@@ -38,7 +38,7 @@ include 'header.php';
 <div class="tabs">
     <button class="tab active" data-tab="users" title="Usuarios">
         <?= munay_icon('users') ?>
-        <span class="tab-label">Usuarios</span>
+        <span class="tab-label">Formadores</span>
     </button>
     <button class="tab" data-tab="shifts" title="Turnos">
         <?= munay_icon('shifts') ?>
@@ -60,7 +60,7 @@ include 'header.php';
 
 <!-- ===== CONTENIDO DE TABS ===== -->
 <div id="tab-users" class="tab-content active">
-    <div class="card"><div class="card-header"><span class="card-title">Gestión de Usuarios</span><button onclick="abrirModalUsuario()" class="btn btn-primary">+ Nuevo</button></div>
+    <div class="card"><div class="card-header"><span class="card-title">Gestión de Formadores</span><button onclick="abrirModalUsuario()" class="btn btn-primary">+ Nuevo</button></div>
     <div class="table-container"><table id="usersTable"><thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Rol</th><th>Grupo</th><th>Acciones</th></tr></thead><tbody id="usersList"><tr><td colspan="7" style="text-align:center;">Cargando...</td></tr></tbody></table></div></div>
 </div>
 
@@ -87,7 +87,7 @@ include 'header.php';
 <!-- ===== MODALES ===== -->
 <div class="modal-overlay" id="modalUsuario">
     <div class="modal">
-        <div class="modal-header"><h2 id="modalUsuarioTitulo">Nuevo Usuario</h2><button class="modal-close" onclick="cerrarModal('modalUsuario')">&times;</button></div>
+        <div class="modal-header"><h2 id="modalUsuarioTitulo">Nuevo Formador</h2><button class="modal-close" onclick="cerrarModal('modalUsuario')">&times;</button></div>
         <input type="hidden" id="editUserId">
         <div class="form-group"><label>Nombre *</label><input type="text" id="inputNombre" placeholder="Nombre completo"></div>
         <div class="form-group"><label>Email *</label><input type="email" id="inputEmail" placeholder="correo@ejemplo.com"></div>
