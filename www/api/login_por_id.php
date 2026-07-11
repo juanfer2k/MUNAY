@@ -7,9 +7,9 @@ header('Content-Type: application/json; charset=utf-8');
 // ============================================================
 session_start([
     'cookie_lifetime' => 0,
-    'cookie_secure'   => true,
+    'cookie_secure'   => false,
     'cookie_httponly' => true,
-    'cookie_samesite' => 'Strict'
+    'cookie_samesite' => 'Lax'
 ]);
 
 // ============================================================

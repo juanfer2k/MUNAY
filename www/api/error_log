@@ -469,3 +469,4 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/login_por_id.php on line 23
+[10-Jul-2026 21:36:39 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
