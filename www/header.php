@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<span class="icon">🌙</span> <span class="label">Noche</span>
+<span class="icon">🌙</span> <span class="label" id="themeLabel">Día</span>
     <base href="/MUNAY/www/">
     <!-- Cargar ambos archivos CSS -->
     <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
