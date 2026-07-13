@@ -1,10 +1,9 @@
 <?php
 // api/login_por_id.php - Login con ID de usuario (cédula) contra tabla usuarios_login
 header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET');
 
-// ============================================================
-// 1. CONFIGURACIÓN DE SESIÓN
-// ============================================================
 session_start([
     'cookie_lifetime' => 0,
     'cookie_secure'   => false,
@@ -12,14 +11,19 @@ session_start([
     'cookie_samesite' => 'Lax'
 ]);
 
-// ============================================================
-// 2. INCLUIR CONFIGURACIÓN Y CONEXIÓN A BD
-// ============================================================
+set_exception_handler(function($e) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'error' => 'Error interno: ' . $e->getMessage()]);
+    exit;
+});
+set_error_handler(function($errno, $errstr) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'error' => 'Error interno: ' . $errstr]);
+    exit;
+});
+
 require_once 'config.php';
 
-// ============================================================
-// 3. OBTENER DATOS DEL REQUEST (JSON o FormData)
-// ============================================================
 $inputData = [];
 $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
 if (strpos($contentType, 'application/json') !== false) {
@@ -35,20 +39,13 @@ $id_usuario = isset($inputData['id_usuario']) ? trim($inputData['id_usuario']) :
 $password   = isset($inputData['password']) ? trim($inputData['password']) : '';
 
 if (empty($id_usuario) || empty($password)) {
-    echo json_encode([
-        'success' => false,
-        'error' => 'El ID de usuario y la contraseña son obligatorios.'
-    ]);
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => 'El ID de usuario y la contraseña son obligatorios.']);
     exit;
 }
 
-// ============================================================
-// 4. AUTENTICACIÓN CONTRA LA TABLA usuarios_login
-// ============================================================
 try {
     $pdo = getDB();
-
-    // Buscar usuario por id_usuario
     $stmt = $pdo->prepare("
         SELECT id_usuario, nombre, email, password_hash, rol, 
                intentos_fallidos, bloqueado_hasta, estado 
@@ -60,46 +57,42 @@ try {
     $user = $stmt->fetch();
 
     if (!$user) {
+        http_response_code(401);
         echo json_encode(['success' => false, 'error' => 'Credenciales inválidas.']);
         exit;
     }
 
-    // Verificar si la cuenta está bloqueada
     if ($user['bloqueado_hasta'] && strtotime($user['bloqueado_hasta']) > time()) {
-        $tiempo_restante = ceil((strtotime($user['bloqueado_hasta']) - time()) / 60);
-        echo json_encode(['success' => false, 'error' => "Cuenta bloqueada por {$tiempo_restante} minutos."]);
+        $restante = ceil((strtotime($user['bloqueado_hasta']) - time()) / 60);
+        http_response_code(403);
+        echo json_encode(['success' => false, 'error' => "Cuenta bloqueada por {$restante} minutos."]);
         exit;
     }
 
-    // Verificar contraseña
     if (!password_verify($password, $user['password_hash'])) {
-        // Incrementar intentos fallidos
         $nuevos_intentos = ($user['intentos_fallidos'] ?? 0) + 1;
         if ($nuevos_intentos >= 5) {
             $bloqueo = date('Y-m-d H:i:s', strtotime('+15 minutes'));
             $update = $pdo->prepare("UPDATE usuarios_login SET intentos_fallidos = ?, bloqueado_hasta = ? WHERE id_usuario = ?");
             $update->execute([$nuevos_intentos, $bloqueo, $id_usuario]);
+            http_response_code(403);
             echo json_encode(['success' => false, 'error' => 'Demasiados intentos. Cuenta bloqueada 15 minutos.']);
         } else {
             $update = $pdo->prepare("UPDATE usuarios_login SET intentos_fallidos = ? WHERE id_usuario = ?");
             $update->execute([$nuevos_intentos, $id_usuario]);
+            http_response_code(401);
             echo json_encode(['success' => false, 'error' => 'Credenciales inválidas.']);
         }
         exit;
     }
 
-    // Si llegamos aquí, credenciales correctas -> resetear intentos
     if ($user['intentos_fallidos'] > 0) {
         $reset = $pdo->prepare("UPDATE usuarios_login SET intentos_fallidos = 0, bloqueado_hasta = NULL WHERE id_usuario = ?");
         $reset->execute([$id_usuario]);
     }
 
-    // Regenerar sesión por seguridad
     session_regenerate_id(true);
 
-    // ============================================================
-    // 5. MAPEAR ROLES DE usuarios_login A LOS QUE ESPERA EL FRONTEND
-    // ============================================================
     $roleMap = [
         'admin'         => 'admin',
         'enfermeria'    => 'nursing',
@@ -109,12 +102,10 @@ try {
     ];
     $roleFrontend = $roleMap[$user['rol']] ?? 'custodio';
 
-    // Guardar datos en sesión
     $_SESSION['user_id']   = $user['id_usuario'];
     $_SESSION['user_name'] = $user['nombre'];
     $_SESSION['user_email'] = $user['email'];
     $_SESSION['user_role'] = $roleFrontend;
-    $_SESSION['user_id_num'] = $user['id_usuario']; // Para compatibilidad
 
     echo json_encode([
         'success' => true,
@@ -127,9 +118,11 @@ try {
     ]);
 
 } catch (PDOException $e) {
-    error_log("Error en login_por_id: " . $e->getMessage());
-    echo json_encode(['success' => false, 'error' => 'Error de conexión con la base de datos.']);
+    error_log("Error login: " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode(['success' => false, 'error' => 'Error de base de datos.']);
 } catch (Exception $e) {
-    error_log("Error en login_por_id: " . $e->getMessage());
+    error_log("Error login: " . $e->getMessage());
+    http_response_code(500);
     echo json_encode(['success' => false, 'error' => 'Error inesperado.']);
 }
