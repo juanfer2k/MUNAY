@@ -79,7 +79,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         formData.append('id_usuario', id_usuario);
         formData.append('password', password);
 
-        const res = await fetch('api/login_por_id.php', {
+        const res = await fetch('/MUNAY/www/api/login_por_id.php', {
             method: 'POST',
             body: formData
         });

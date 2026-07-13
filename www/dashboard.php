@@ -11,7 +11,7 @@ $page_title = match($user_role) {
     'admin' => 'Panel de Administración',
     'coordinator' => 'Panel de Coordinación',
     'nursing' => 'Panel de Enfermería',
-    'custodio' => 'Mis Turnos',   // <-- Asegúrate de que esté 'caregiver'
+    'custodio' => 'Mis Turnos',
     'police' => 'Panel de Policía',
     default => 'Dashboard'
 };
@@ -486,6 +486,7 @@ custodio: [
         document.getElementById(id).classList.remove('active');
     }
     function irATab(tabId) {
+    console.log("irATab llamada con: " + tabId);
         const btn = document.querySelector('.tab[data-tab="' + tabId + '"]');
         if (btn) {
             btn.click();

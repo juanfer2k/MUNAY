@@ -41,6 +41,13 @@
     <!-- ============================================================ -->
     <!-- SCRIPTS GLOBALES                                             -->
     <!-- ============================================================ -->
+    
+    <!-- PRIMERO: common.js -->
+<script src="js/common.js"></script>
+
+<!-- DESPUÉS: dashboard.js y otros -->
+<script src="js/dashboard.js"></script>
+
     <script>
     // ================================================================
     //  FUNCIONES GLOBALES

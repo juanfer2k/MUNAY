@@ -470,3 +470,75 @@ Stack trace:
 #0 {main}
   thrown in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/login_por_id.php on line 23
 [10-Jul-2026 21:36:39 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[12-Jul-2026 17:57:21 UTC] PHP Parse error:  syntax error, unexpected identifier "fine" in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/config.php on line 18
+[12-Jul-2026 17:57:24 UTC] PHP Parse error:  syntax error, unexpected identifier "fine" in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/config.php on line 18
+[12-Jul-2026 21:01:11 UTC] PHP Parse error:  syntax error, unexpected identifier "fine" in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/config.php on line 18
+[13-Jul-2026 00:22:17 UTC] PHP Parse error:  syntax error, unexpected identifier "fine" in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/config.php on line 18
+[13-Jul-2026 00:29:17 UTC] PHP Parse error:  syntax error, unexpected identifier "fine" in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/config.php on line 18
+[13-Jul-2026 00:29:27 UTC] PHP Parse error:  syntax error, unexpected identifier "fine" in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/config.php on line 18
+[13-Jul-2026 00:29:54 UTC] PHP Parse error:  syntax error, unexpected identifier "fine" in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/config.php on line 18
+[13-Jul-2026 00:52:47 UTC] PHP Parse error:  syntax error, unexpected identifier "fine" in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/config.php on line 18
+[13-Jul-2026 00:53:53 UTC] PHP Parse error:  syntax error, unexpected identifier "fine" in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/config.php on line 18
+[13-Jul-2026 00:53:56 UTC] PHP Parse error:  syntax error, unexpected identifier "fine" in /home2/elcerrit/elcerritovalle.org/MUNAY/www/api/config.php on line 18
+[13-Jul-2026 01:08:47 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:10:14 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:10:27 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:18:40 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:17 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:17 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:17 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:17 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:17 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:17 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:18 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:18 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:18 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:18 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:18 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:18 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:18 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:18 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:18 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:18 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:18 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:18 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:19 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:19 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:19 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:19 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:19 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:19 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:19 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:19 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:19 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:19 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:19 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:19 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:19 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:20 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:20 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:20 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:20 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:20 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:20 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:20 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:20 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:20 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:20 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:20 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:20 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:21 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:21 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:21 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:21 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:21 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:21 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:21 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:21 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:21 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:21 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:21 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:21 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:21 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:22 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
+[13-Jul-2026 01:25:42 UTC] PHP Warning:  PHP Startup: Invalid date.timezone value '', using 'UTC' instead in Unknown on line 0
